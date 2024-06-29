@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>发送邮件</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='tinymce/tinymce.min.js') }}"></script>
+    <script>
+        tinymce.init({
+            selector: '.tinymce-textarea',
+            language: 'zh_CN',
+            plugins: 'advlist anchor autolink codesample fullscreen help image',
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save();
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>发送邮件</h1>
+            </div>
+            <ul>
+                <li><a href="/logout">登出</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <form id="emailForm" enctype="multipart/form-data">
+            <label for="from">发件人：</label>
+            <input type="email" id="from" name="from" required><br>
+
+            <label for="to">收件人：</label>
+            <input type="email" id="to" name="to" required><br>
+
+            <label for="subject">主题：</label>
+            <input type="text" id="subject" name="subject" required><br>
+
+            <label for="html">正文内容（HTML格式）：</label>
+            <textarea id="html" name="html" class="tinymce-textarea"></textarea><br>
+
+            <label for="attachments">附件：</label>
+            <input type="file" id="attachments" name="attachments" multiple><br>
+
+            <button type="submit">发送邮件</button>
+        </form>
+        <script>
+            document.getElementById('emailForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData();
+
+                formData.append('from', form.from.value);
+                formData.append('to', form.to.value);
+                formData.append('subject', form.subject.value);
+                formData.append('html', tinymce.get('html').getContent());
+
+                const attachments = form.attachments.files;
+                for (let i = 0; i < attachments.length; i++) {
+                    formData.append('attachments', attachments[i]);
+                }
+
+                try {
+                    const response = await fetch('/send-email', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert('邮件发送成功');
+                        form.reset();
+                        tinymce.get('html').setContent('');
+                    } else {
+                        const errorText = await response.text();
+                        alert('邮件发送失败： ' + errorText);
+                    }
+                } catch (error) {
+                    alert('错误： ' + error.message);
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

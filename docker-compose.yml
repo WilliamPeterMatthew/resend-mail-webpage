@@ -1,0 +1,13 @@
+version: '3'
+services:
+  resendmail-web:
+    container_name: resendmail-web
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - "${PORT}:5827"
+    environment:
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - SITE_PASSWORD=${SITE_PASSWORD}
+
