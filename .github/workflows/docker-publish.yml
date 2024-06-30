@@ -33,6 +33,10 @@ jobs:
       id: extract_date
       run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
 
+    - name: Convert GitHub repository owner to lowercase
+      id: to_lowercase
+      run: echo "REPO_OWNER=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
     - name: Build and push Docker image to GitHub Packages
       uses: docker/build-push-action@v2
       with:
@@ -40,8 +44,8 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          ghcr.io/${{ github.repository_owner | toLowerCase }}/resendmail-web:latest
-          ghcr.io/${{ github.repository_owner | toLowerCase }}/resendmail-web:${{ env.DATE }}
+          ghcr.io/${{ env.REPO_OWNER }}/resendmail-web:latest
+          ghcr.io/${{ env.REPO_OWNER }}/resendmail-web:${{ env.DATE }}
 
     - name: Build and push Docker image to Docker Hub
       uses: docker/build-push-action@v2
