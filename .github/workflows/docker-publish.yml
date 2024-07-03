@@ -44,6 +44,7 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
+          ghcr.io/${{ env.REPO_OWNER }}/resendmail-web:latest
           ghcr.io/${{ env.REPO_OWNER }}/resendmail-web:${{ env.DATE }}
 
   build_and_push_to_dockerhub:
@@ -79,4 +80,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
+          ${{ secrets.DOCKER_USERNAME }}/resendmail-web:latest
           ${{ secrets.DOCKER_USERNAME }}/resendmail-web:${{ env.DATE }}
