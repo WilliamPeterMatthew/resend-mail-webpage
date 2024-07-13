@@ -2,6 +2,7 @@ version: '3'
 services:
   resendmail-web:
     container_name: resendmail-web
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile 
