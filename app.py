@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, g
 import os
+import json
 import resend
 import base64
 
@@ -7,6 +8,25 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 PASSWORD = os.getenv('SITE_PASSWORD')
 resend.api_key = os.getenv('RESEND_API_KEY')
+
+# 加载翻译文件
+translations = {}
+translations_dir = os.path.join(app.root_path, 'translations')
+for filename in os.listdir(translations_dir):
+    if filename.endswith('.json'):
+        lang_code = filename.split('.')[0]
+        with open(os.path.join(translations_dir, filename), 'r', encoding='utf-8') as f:
+            translations[lang_code] = json.load(f)
+
+@app.context_processor
+def inject_translations():
+    lang = session.get('language', 'zh')
+    return dict(lang=lang, translations=translations.get(lang, {}))
+
+@app.route('/setlang', methods=['POST'])
+def set_language():
+    session['language'] = request.form['language']
+    return redirect(request.referrer or url_for('home'))
 
 @app.route('/')
 def home():
@@ -20,7 +40,7 @@ def login():
         if request.form['password'] == PASSWORD:
             session['authenticated'] = True
             return redirect(url_for('home'))
-        return '密码错误', 401
+        return render_template('error.html', error=translations[session.get('language', 'zh')]['error_password']), 401
     return render_template('login.html')
 
 @app.route('/logout')

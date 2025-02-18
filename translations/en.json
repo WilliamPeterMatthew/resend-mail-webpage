@@ -1,0 +1,21 @@
+{
+    "login_title": "Login",
+    "password_label": "Password",
+    "login_button": "Login",
+    "error_password": "Incorrect password",
+    "send_email_title": "Send Email",
+    "logout_link": "Logout",
+    "from_label": "From",
+    "to_label": "To",
+    "subject_label": "Subject",
+    "content_label": "Content (HTML)",
+    "attachments_label": "Attachments",
+    "send_button": "Send Email",
+    "email_success": "Email sent successfully",
+    "email_failure": "Failed to send email: ",
+    "error_message": "Error: ",
+    "error_title": "Error",
+    "back_to_login": "Back to login",
+    "tinymce_lang": "en",
+    "language_name": "English"
+}

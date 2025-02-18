@@ -9,6 +9,7 @@ services:
     ports:
       - "${PORT}:5827"
     environment:
+      - PORT=5827
       - RESEND_API_KEY=${RESEND_API_KEY}
       - SITE_PASSWORD=${SITE_PASSWORD}
 
