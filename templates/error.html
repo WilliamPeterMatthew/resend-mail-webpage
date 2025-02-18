@@ -12,7 +12,7 @@
             </div>
             <ul>
                 <li>
-                    <form action="{{ url_for('set_language') }}" method="post">
+                    <form action="{{ url_for('set_language') }}" method="post" style="background: none;">
                         <select name="language" onchange="this.form.submit()">
                             {% for lang_code in all_translations.keys() %}
                             <option value="{{ lang_code }}" {% if current_lang == lang_code %}selected{% endif %}>
@@ -26,8 +26,10 @@
         </div>
     </header>
     <div class="container">
-        <p>{{ error }}</p>
-        <a href="{{ url_for('login') }}">{{ translations['back_to_login'] }}</a>
+        <form method="get">
+            <label for="back_to_login">{{ error }}</label>
+            <button type="submit">{{ translations['back_to_login'] }}</button>
+        </form>
     </div>
 </body>
 </html>
