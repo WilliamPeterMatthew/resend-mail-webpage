@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session, g
+from flask import Flask, request, render_template, redirect, url_for, session
 import os
 import json
 import resend
@@ -21,18 +21,22 @@ for filename in os.listdir(translations_dir):
 @app.context_processor
 def inject_translations():
     lang = session.get('language', 'zh')
-    return dict(lang=lang, translations=translations.get(lang, {}))
-
-@app.route('/setlang', methods=['POST'])
-def set_language():
-    session['language'] = request.form['language']
-    return redirect(request.referrer or url_for('home'))
+    return {
+        'all_translations': translations,
+        'translations': translations.get(lang, translations['zh']),
+        'current_lang': lang
+    }
 
 @app.route('/')
 def home():
     if 'authenticated' in session:
         return render_template('index.html')
     return redirect(url_for('login'))
+
+@app.route('/setlang', methods=['POST'])
+def set_language():
+    session['language'] = request.form['language']
+    return redirect(request.referrer or url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
