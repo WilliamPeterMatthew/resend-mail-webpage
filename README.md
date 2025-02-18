@@ -38,6 +38,11 @@ Run the project by executing the following command in the directory.
 docker-compose up -d
 ```
 
+You can also use a pre-built version of the image instead of building locally.
+```bash
+docker-compose -f docker-compose-prebuild.yml up -d
+```
+
 ## Congratulations
 Now you can access the web page on the port you set in Step 6.
 

@@ -3,9 +3,7 @@ services:
   resendmail-web:
     container_name: resendmail-web
     restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile 
+    image: petermatthew/resendmail-web
     ports:
       - "${PORT}:5827"
     environment:
