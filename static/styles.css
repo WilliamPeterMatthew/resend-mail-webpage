@@ -84,3 +84,10 @@ form button {
 form button:hover {
     background: #77c;
 }
+
+header form {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}

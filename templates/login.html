@@ -12,7 +12,7 @@
             </div>
             <ul>
                 <li>
-                    <form action="{{ url_for('set_language') }}" method="post" style="background: none;">
+                    <form action="{{ url_for('set_language') }}" method="post">
                         <select name="language" onchange="this.form.submit()">
                             {% for lang_code in all_translations.keys() %}
                             <option value="{{ lang_code }}" {% if current_lang == lang_code %}selected{% endif %}>
