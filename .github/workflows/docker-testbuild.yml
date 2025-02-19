@@ -6,8 +6,10 @@ on:
       - master
 
 jobs:
-  build_image:
+  build:
     runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Shanghai
 
     permissions:
       contents: read
@@ -16,22 +18,22 @@ jobs:
       id-token: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - uses: docker/setup-buildx-action@v3
 
-    - name: Extract current date
-      id: extract_date
-      run: echo "DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+      - name: Extract current date
+        id: extract-date
+        run: |
+          DATE=$(date +%Y%m%d)
+          echo "date=$DATE" >> $GITHUB_OUTPUT
 
-    - name: Build Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        push: false
-        tags: |
-          resendmail-web:latest
-          resendmail-web:${{ env.DATE }}
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: |
+            resendmail-test:latest
+            resendmail-test:${{ steps.extract-date.outputs.date }}
