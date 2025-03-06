@@ -1,6 +1,10 @@
 # Resend Mail Webpage
 A webpage to send e-mail via Resend API.
 
+![Docker Pulls](https://img.shields.io/docker/pulls/petermatthew/resendmail-web)
+![Docker Image Size](https://img.shields.io/docker/image-size/petermatthew/resendmail-web)
+![Docker Image Version](https://img.shields.io/docker/v/petermatthew/resendmail-web)
+
 Build via Docker Compose, using the Python Flask framework.
 
 ## Step 1
