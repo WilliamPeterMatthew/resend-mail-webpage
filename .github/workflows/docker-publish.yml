@@ -47,6 +47,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web:{1}', steps.lowercase-owner.outputs.lower_owner, steps.extract-date.outputs.date) || format('{0}/resendmail-web:{1}', secrets.DOCKER_USERNAME, steps.extract-date.outputs.date) }}
