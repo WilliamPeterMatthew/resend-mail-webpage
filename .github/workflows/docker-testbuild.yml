@@ -35,5 +35,5 @@ jobs:
           file: ./Dockerfile
           push: false
           tags: |
-            resendmail-test:latest
-            resendmail-test:${{ steps.extract-date.outputs.date }}
+            resendmail-web-test:latest
+            resendmail-web-test:${{ steps.extract-date.outputs.date }}
