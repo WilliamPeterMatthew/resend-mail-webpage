@@ -56,12 +56,12 @@ jobs:
           platforms: ${{ matrix.arch }}
           push: false
           tags: |
-            resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-latest
-            resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-${{ steps.extract-date.outputs.date }}
-          outputs: type=docker,dest=./image-${{ steps.sanitize.outputs.safe_arch }}.tar
+            resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-latest-alpine
+            resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-${{ steps.extract-date.outputs.date }}-alpine
+          outputs: type=docker,dest=./image-${{ steps.sanitize.outputs.safe_arch }}-alpine.tar
 
       - name: Upload ${{ matrix.arch }} image
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image-${{ steps.sanitize.outputs.safe_arch }}
-          path: image-${{ steps.sanitize.outputs.safe_arch }}.tar
+          name: docker-image-${{ steps.sanitize.outputs.safe_arch }}-alpine
+          path: image-${{ steps.sanitize.outputs.safe_arch }}-alpine.tar
