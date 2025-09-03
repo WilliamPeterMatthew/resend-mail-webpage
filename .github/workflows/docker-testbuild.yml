@@ -58,10 +58,10 @@ jobs:
           tags: |
             resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-latest-debian
             resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-${{ steps.extract-date.outputs.date }}-debian
-          outputs: type=docker,dest=./image-${{ steps.sanitize.outputs.safe_arch }}-debian.tar
+          outputs: type=docker,dest=./resendmail-web-${{ steps.sanitize.outputs.safe_arch }}-debian.tar
 
       - name: Upload ${{ matrix.arch }} image
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image-${{ steps.sanitize.outputs.safe_arch }}-debian
-          path: image-${{ steps.sanitize.outputs.safe_arch }}-debian.tar
+          name: resendmail-web-${{ steps.sanitize.outputs.safe_arch }}-debian
+          path: resendmail-web-${{ steps.sanitize.outputs.safe_arch }}-debian.tar
