@@ -9,6 +9,7 @@ jobs:
     env:
       TZ: Asia/Shanghai
     strategy:
+      fail-fast: false
       matrix:
         registry: ['ghcr', 'dockerhub']
 

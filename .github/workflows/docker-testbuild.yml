@@ -11,6 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TZ: Asia/Shanghai
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - linux/386
+          - linux/amd64
+          - linux/arm/v7
+          - linux/arm64/v8
+          - linux/ppc64le
+          - linux/s390x
+          - linux/riscv64
 
     permissions:
       contents: read
@@ -31,13 +42,20 @@ jobs:
           DATE=$(date +%Y%m%d)
           echo "date=$DATE" >> $GITHUB_OUTPUT
 
-      - name: Build
+      - name: Build ${{ matrix.arch }}
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x,linux/riscv64
+          platforms: ${{ matrix.arch }}
           push: false
           tags: |
-            resendmail-web-test:latest
-            resendmail-web-test:${{ steps.extract-date.outputs.date }}
+            resendmail-web-test:${{ matrix.arch//\//- }}-latest
+            resendmail-web-test:${{ matrix.arch//\//- }}-${{ steps.extract-date.outputs.date }}
+          outputs: type=docker,dest=./image-${{ matrix.arch//\//- }}.tar
+
+      - name: Upload ${{ matrix.arch }} image
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image-${{ matrix.arch//\//- }}
+          path: image-${{ matrix.arch//\//- }}.tar
