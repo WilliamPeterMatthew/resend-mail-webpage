@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - alpine
+  workflow_dispatch:
 
 jobs:
   build:
