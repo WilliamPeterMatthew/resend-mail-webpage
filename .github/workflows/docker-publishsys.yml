@@ -50,6 +50,8 @@ jobs:
           platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x,linux/riscv64
           push: true
           tags: |
-            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web:{1}-alpine', steps.lowercase-owner.outputs.lower_owner, steps.extract-date.outputs.date) || format('{0}/resendmail-web:{1}-alpine', secrets.DOCKER_USERNAME, steps.extract-date.outputs.date) }}
-            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web:latest-alpine', steps.lowercase-owner.outputs.lower_owner)                               || format('{0}/resendmail-web:latest-alpine', secrets.DOCKER_USERNAME) }}
-            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web:alpine', steps.lowercase-owner.outputs.lower_owner)                                      || format('{0}/resendmail-web:alpine', secrets.DOCKER_USERNAME) }}
+            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web-alpine:{1}', steps.lowercase-owner.outputs.lower_owner, steps.extract-date.outputs.date)        || format('{0}/resendmail-web-alpine:{1}', secrets.DOCKER_USERNAME, steps.extract-date.outputs.date) }}
+            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web-alpine:latest', steps.lowercase-owner.outputs.lower_owner)                                      || format('{0}/resendmail-web-alpine:latest', secrets.DOCKER_USERNAME) }}
+            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web-alpine:{1}-alpine', steps.lowercase-owner.outputs.lower_owner, steps.extract-date.outputs.date) || format('{0}/resendmail-web-alpine:{1}-alpine', secrets.DOCKER_USERNAME, steps.extract-date.outputs.date) }}
+            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web-alpine:latest-alpine', steps.lowercase-owner.outputs.lower_owner)                               || format('{0}/resendmail-web-alpine:latest-alpine', secrets.DOCKER_USERNAME) }}
+            ${{ matrix.registry == 'ghcr' && format('ghcr.io/{0}/resendmail-web-alpine:alpine', steps.lowercase-owner.outputs.lower_owner)                                      || format('{0}/resendmail-web-alpine:alpine', secrets.DOCKER_USERNAME) }}
