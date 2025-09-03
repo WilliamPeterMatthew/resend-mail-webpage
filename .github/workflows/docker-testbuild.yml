@@ -42,6 +42,12 @@ jobs:
           DATE=$(date +%Y%m%d)
           echo "date=$DATE" >> $GITHUB_OUTPUT
 
+      - name: Sanitize arch name
+        id: sanitize
+        run: |
+          safe_arch=$(echo "${{ matrix.arch }}" | tr '/' '-')
+          echo "safe_arch=$safe_arch" >> $GITHUB_OUTPUT
+
       - name: Build ${{ matrix.arch }}
         uses: docker/build-push-action@v5
         with:
@@ -50,12 +56,12 @@ jobs:
           platforms: ${{ matrix.arch }}
           push: false
           tags: |
-            resendmail-web-test:${{ matrix.arch//\//- }}-latest
-            resendmail-web-test:${{ matrix.arch//\//- }}-${{ steps.extract-date.outputs.date }}
-          outputs: type=docker,dest=./image-${{ matrix.arch//\//- }}.tar
+            resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-latest
+            resendmail-web-test:${{ steps.sanitize.outputs.safe_arch }}-${{ steps.extract-date.outputs.date }}
+          outputs: type=docker,dest=./image-${{ steps.sanitize.outputs.safe_arch }}.tar
 
       - name: Upload ${{ matrix.arch }} image
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image-${{ matrix.arch//\//- }}
-          path: image-${{ matrix.arch//\//- }}.tar
+          name: docker-image-${{ steps.sanitize.outputs.safe_arch }}
+          path: image-${{ steps.sanitize.outputs.safe_arch }}.tar
